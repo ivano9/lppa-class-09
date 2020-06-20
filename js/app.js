@@ -3,7 +3,8 @@
 // var status = 'ready'; // 'ready', 'p1Turn', 'p2Turn', 'p1Win', 'p2Win'
 var boardHTML = null
 var columnsHTML = null
-
+var redCont = 0
+var yellowCount = 0
 var turn = 'yellow'
 var board = [
   [null, null, null, null, null, null],
@@ -19,11 +20,32 @@ var toggleTurn = function () {
   turn = (turn === 'yellow') ? 'red' : 'yellow'
 }
 
+var CheckWin = function (col, row) {
+  // Columns Check
+  for (var i = 0; i < board[col].length; i++) {
+    if (board[col][i] === 'red') {
+      redCont++
+      if (redCont === 4) console.log('RED WON')
+    } else redCont = 0
+
+    if (board[col][i] === 'yellow') {
+      yellowCount++
+      if (yellowCount === 4) console.log('YELLOW WON')
+    } else yellowCount = 0
+  }
+
+  // Rows Check
+  for (var col = 0; col < 7; col++) {
+    console.log(board[col][row])
+  }
+}
+
 var columnEventHandler = function (evt) {
-  var columnId = evt.target.id.substr(1, 1)
+  var columnId = +evt.target.id.substr(1, 1)
   for (var i = 0; i < board[columnId].length; i++) {
     if (!board[columnId][i]) {
       board[columnId][i] = turn
+      CheckWin(columnId,i)
       toggleTurn()
       render()
       break
