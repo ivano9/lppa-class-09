@@ -20,24 +20,39 @@ var toggleTurn = function () {
   turn = (turn === 'yellow') ? 'red' : 'yellow'
 }
 
+var gameOver = function (player) {
+  // TODO
+}
+
 var CheckWin = function (col, row) {
   // Columns Check
   for (var i = 0; i < board[col].length; i++) {
     if (board[col][i] === 'red') {
       redCont++
-      if (redCont === 4) console.log('RED WON')
+      if (redCont === 4) return console.log('RED WON') // TODO function gameOver
     } else redCont = 0
 
     if (board[col][i] === 'yellow') {
       yellowCount++
-      if (yellowCount === 4) console.log('YELLOW WON')
+      if (yellowCount === 4) return console.log('YELLOW WON') // TODO function gameOver
     } else yellowCount = 0
   }
 
   // Rows Check
-  for (var col = 0; col < 7; col++) {
-    console.log(board[col][row])
+  for (var col = 0; col < columnsHTML.length; col++) {
+    if (board[col][row] === 'red') {
+      redCont++
+      if ( redCont === 4 ) return console.log('RED WON') // TODO function game over
+    } else redCont = 0
+
+    if (board[col][row] === 'yellow') {
+      yellowCount++
+      if (yellowCount === 4) return console.log('YELLOW WON') // TODO function game over
+    } else yellowCount = 0
   }
+
+  // Diagonals Check
+
 }
 
 var columnEventHandler = function (evt) {
