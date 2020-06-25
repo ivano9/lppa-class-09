@@ -3,7 +3,7 @@
 // var status = 'ready'; // 'ready', 'p1Turn', 'p2Turn', 'p1Win', 'p2Win'
 var boardHTML = null
 var columnsHTML = null
-var colorCont = 0
+var colorCount
 var turn = ''
 
 var board = [
@@ -24,57 +24,74 @@ var gameOver = function (turnColor) {
   // TODO
 }
 
+var columnsCheck = function (col) {
+  colorCount = 0
+
+  for (var i = 0; i < board[col].length; i++) {
+    if (board[col][i] === turn) {
+      colorCount++
+      if (colorCount === 4) return console.log(turn + ' WON') // TODO function gameOver
+    } else break
+  }
+}
+
+var rowsCheck = function (row) {
+  colorCount = 0
+
+  for (var i = 0; i < columnsHTML.length; i++) {
+    if (board[i][row] === turn) {
+      colorCount++
+      if (colorCount === 4) return console.log(turn + ' WON') // TODO function game over
+    } else colorCount = 0
+  }
+}
+
 var descDiagCheck = function (col, row) {
+  colorCount = 0
 
   for (var i = col, j = row; i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length; i++, j--){
     if (board[i][j] === turn) {
-      colorCont++
-      if (colorCont === 4) return console.log(turn + ' WON')
+      colorCount++
+      if (colorCount === 4) return console.log(turn + ' WON')
     } else break
   }
   
   for (;col >= 0 && row < board[col].length; col--, row++) {
     if (board[col][row] === turn) {
-      colorCont++
-      if (colorCont === 5) return console.log(turn + ' WON')
-    } else colorCont = 0
+      colorCount++
+      if (colorCount === 5) return console.log(turn + ' WON')
+    } else colorCount = 0
   }
   
 }
 
-var CheckWin = function (col, row) {
-  // Columns Check
-  for (var i = 0; i < board[col].length; i++) {
-    if (board[col][i] === turn) {
-      colorCont++
-      if (colorCont === 4) return console.log(turn + ' WON') // TODO function gameOver
-    } else colorCont = 0
+var ascDiagCheck = function (col, row) {
+  colorCount = 0
+
+  for (
+    var i = (col - row < 0) ? 0 : col - row, j = (row - col < 0) ? 0 : row - col; i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length; i++, j++
+  ) {
+    if (board[i][j] === turn) {
+      colorCount++
+      if (colorCount === 4) return console.log(turn + ' WON')
+    } else colorCount = 0
   }
 
-  // // Rows Check
-  for (var col = 0; col < columnsHTML.length; col++) {
-    if (board[col][row] === turn) {
-      colorCont++
-      if ( colorCont === 4 ) return console.log(turn +' WON') // TODO function game over
-    } else colorCont = 0
-  }
+  if (colorCount < 4) colorCount = 0
+}
+
+var CheckWin = function (col, row) {
+  // Columns Check
+  columnsCheck(col)
+
+  // Rows Check
+  rowsCheck(row)
 
   // Descending Diagonal Check
   descDiagCheck(col, row)
 
   // Ascending Diagonal Check
-  for (
-    var i = (col - row < 0) ? 0 : col - row, j = (row - col < 0) ? 0 : row - col;
-    i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length;
-    i++, j++
-  ) {
-    if (board[i][j] === turn) {
-      colorCont++
-      if (colorCont === 4) return console.log(turn + ' WON')
-    }
-  }
-
-  if (colorCont < 4) colorCont = 0
+  ascDiagCheck(col, row)
 }
 
 var columnEventHandler = function (evt) {
