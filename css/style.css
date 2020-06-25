@@ -143,6 +143,10 @@ a:visited {
     font-weight: bold;
 }
 
+.displayWin {
+    font-weight: bold;
+    color: green
+}
 /*
 .game .players .direction.right {
     flex: 0;

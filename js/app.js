@@ -21,7 +21,11 @@ var toggleTurn = function () {
 }
 
 var gameOver = function (turnColor) {
-  // TODO
+  var won = document.getElementById("won")
+  var style = document.createElement('style');
+  document.head.appendChild(style);
+  style.sheet.insertRule('#board {pointer-events: none}');
+  won.innerHTML = 'Player ' + turnColor + ' Won'
 }
 
 var columnsCheck = function (col) {
@@ -30,7 +34,7 @@ var columnsCheck = function (col) {
   for (var i = 0; i < board[col].length; i++) {
     if (board[col][i] === turn) {
       colorCount++
-      if (colorCount === 4) return console.log(turn + ' WON') // TODO function gameOver
+      if (colorCount === 4) return gameOver(turn)
     } else break
   }
 }
@@ -41,7 +45,7 @@ var rowsCheck = function (row) {
   for (var i = 0; i < columnsHTML.length; i++) {
     if (board[i][row] === turn) {
       colorCount++
-      if (colorCount === 4) return console.log(turn + ' WON') // TODO function game over
+      if (colorCount === 4) return gameOver(turn)
     } else colorCount = 0
   }
 }
@@ -52,14 +56,14 @@ var descDiagCheck = function (col, row) {
   for (var i = col, j = row; i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length; i++, j--){
     if (board[i][j] === turn) {
       colorCount++
-      if (colorCount === 4) return console.log(turn + ' WON')
+      if (colorCount === 4) return gameOver(turn)
     } else break
   }
   
   for (;col >= 0 && row < board[col].length; col--, row++) {
     if (board[col][row] === turn) {
       colorCount++
-      if (colorCount === 5) return console.log(turn + ' WON')
+      if (colorCount === 5) return gameOver(turn)
     } else colorCount = 0
   }
   
@@ -69,11 +73,13 @@ var ascDiagCheck = function (col, row) {
   colorCount = 0
 
   for (
-    var i = (col - row < 0) ? 0 : col - row, j = (row - col < 0) ? 0 : row - col; i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length; i++, j++
+    var i = (col - row < 0) ? 0 : col - row, j = (row - col < 0) ? 0 : row - col;
+    i >= 0 && i < columnsHTML.length && j >= 0 && j < board[col].length;
+    i++, j++
   ) {
     if (board[i][j] === turn) {
       colorCount++
-      if (colorCount === 4) return console.log(turn + ' WON')
+      if (colorCount === 4) return gameOver(turn)
     } else colorCount = 0
   }
 
